@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import TableComponent from "../Compnents/TableComponent";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
+import { HashLoader } from "react-spinners";
 
 const QA = () => {
     const token = localStorage.getItem("token");
@@ -152,49 +153,51 @@ const QA = () => {
 
     return (
         <ThemeDash>
-            <Box className="mb-2">
-                <React.Fragment>
-                    <Box className='gap-2 d-flex justify-content-between align-items-center'>
-                        <Box sx={{ width: '85%' }}>
-                            <TextField label='Search Question' value={searchTerm} onChange={handleSearch} />
-                        </Box>
-                        <Box sx={{ width: '15%' }}>
-                            <Button variant="contained" onClick={() => { setOpen(true) }} className="w-100 py-3">
-                                ADD Q & A
-                            </Button>
-                        </Box>
-                    </Box>
-                </React.Fragment>
-            </Box>
             <Box sx={{ width: "100%" }}>
                 {loading ? (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
-                        <CircularProgress />
+                    <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%', height: '60vh' }}>
+                        <HashLoader color="#122dff" />
                     </Box>
                 ) : (
-                    <TableComponent
-                        TableHeader={TableHeader}
-                        TableData={filterqa}
-                        renderRow={(row, index) => (
-                            <>
-                                <TableCell>{index + 1}</TableCell>
-                                <TableCell>{row.questions}</TableCell>
-                                <TableCell>{row.answer}</TableCell>
-                                <TableCell>{row.subcatagoryID?.subCatagoryname}</TableCell>
-                                <TableCell>{row.subcatagoryID?.catagoryID.catagoryName}</TableCell>
-                                <TableCell align="left">
-                                    <Button onClick={() => deleteData(row._id)}>
-                                        <DeleteRoundedIcon className="text-danger" />
-                                    </Button>
-                                </TableCell>
-                                <TableCell align="left">
-                                    <Button onClick={() => updateData(row._id)}>
-                                        <BorderColorRoundedIcon className="text-success" />
-                                    </Button>
-                                </TableCell>
-                            </>
-                        )}
-                    />
+                    <Box>
+                        <Box className="mb-2">
+                            <React.Fragment>
+                                <Box className='gap-2 d-flex justify-content-between align-items-center'>
+                                    <Box sx={{ width: '85%' }}>
+                                        <TextField label='Search Question' value={searchTerm} onChange={handleSearch} />
+                                    </Box>
+                                    <Box sx={{ width: '15%' }}>
+                                        <Button variant="contained" onClick={() => { setOpen(true) }} className="w-100 py-3">
+                                            ADD Q & A
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            </React.Fragment>
+                        </Box>
+                        <TableComponent
+                            TableHeader={TableHeader}
+                            TableData={filterqa}
+                            renderRow={(row, index) => (
+                                <>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{row.questions}</TableCell>
+                                    <TableCell>{row.answer}</TableCell>
+                                    <TableCell>{row.subcatagoryID?.subCatagoryname}</TableCell>
+                                    <TableCell>{row.subcatagoryID?.catagoryID.catagoryName}</TableCell>
+                                    <TableCell align="left">
+                                        <Button onClick={() => deleteData(row._id)}>
+                                            <DeleteRoundedIcon className="text-danger" />
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <Button onClick={() => updateData(row._id)}>
+                                            <BorderColorRoundedIcon className="text-success" />
+                                        </Button>
+                                    </TableCell>
+                                </>
+                            )}
+                        />
+                    </Box>
                 )}
             </Box>
 

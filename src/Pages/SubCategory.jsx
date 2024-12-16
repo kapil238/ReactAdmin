@@ -13,6 +13,8 @@ import { ToastContainer, toast } from "react-toastify";
 import TableComponent from "../Compnents/TableComponent";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
+import { HashLoader } from "react-spinners";
+
 
 const SubCategory = () => {
   const token = localStorage.getItem("token");
@@ -123,10 +125,10 @@ const SubCategory = () => {
     const selectedData = subcategory.find((item) => item._id === id);
     const updatedStatus = selectedData.status === "on" ? "off" : "on";
 
-    setLoading(true);  // Start loading
+    // setLoading(true);  // Start loading
     try {
       await axios.patch(
-        `https://interviewhub-3ro7.onrender.com/catagory/${id}`,
+        `https://interviewhub-3ro7.onrender.com/subcatagory/${id}`,
         { status: updatedStatus },
         { headers: { Authorization: token } }
       );
@@ -171,64 +173,67 @@ const SubCategory = () => {
 
   return (
     <ThemeDash>
-      <Box className="mb-2">
-        <React.Fragment>
-          <Box className="gap-2 d-flex justify-content-between align-items-center">
-            <Box sx={{ width: "85%" }}>
-              <TextField
-                label="Search Sub-Category"
-                value={searchTerm}
-                onChange={handleSearch}
-              />
-            </Box>
-            <Box sx={{ width: "15%" }}>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  setOpen(true);
-                }}
-                className="w-100 py-3"
-              >
-                ADD SUB CATEGORY
-              </Button>
-            </Box>
-          </Box>
-        </React.Fragment>
-      </Box>
+
 
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
-          <CircularProgress />
+          <HashLoader color="#122dff" />
         </Box>
       ) : (
-        <Box sx={{ width: "100%" }}>
-          <TableComponent
-            TableHeader={TableHeader}
-            TableData={filterSubcategory}
-            renderRow={(row, index) => (
-              <>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{row.subCatagoryname}</TableCell>
-                <TableCell>{row.catagoryID?.catagoryName}</TableCell>
-                <TableCell>
-                  <Switch
-                    checked={row.status === "on"}
-                    onClick={() => switchToggle(row._id)}
+        <Box>
+          <Box className="mb-2">
+            <React.Fragment>
+              <Box className="gap-2 d-flex justify-content-between align-items-center">
+                <Box sx={{ width: "85%" }}>
+                  <TextField
+                    label="Search Sub-Category"
+                    value={searchTerm}
+                    onChange={handleSearch}
                   />
-                </TableCell>
-                <TableCell align="left">
-                  <Button onClick={() => deleteData(row._id)}>
-                    <DeleteRoundedIcon className="text-danger" />
+                </Box>
+                <Box sx={{ width: "15%" }}>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                    className="w-100 py-3"
+                  >
+                    ADD SUB CATEGORY
                   </Button>
-                </TableCell>
-                <TableCell align="left">
-                  <Button onClick={() => updateData(row._id)}>
-                    <BorderColorRoundedIcon className="text-success" />
-                  </Button>
-                </TableCell>
-              </>
-            )}
-          />
+                </Box>
+              </Box>
+            </React.Fragment>
+          </Box>
+          <Box sx={{ width: "100%" }}>
+            <TableComponent
+              TableHeader={TableHeader}
+              TableData={filterSubcategory}
+              renderRow={(row, index) => (
+                <>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{row.subCatagoryname}</TableCell>
+                  <TableCell>{row.catagoryID?.catagoryName}</TableCell>
+                  <TableCell>
+                    <Switch
+                      checked={row.status === "on"}
+                      onClick={() => switchToggle(row._id)}
+                    />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Button onClick={() => deleteData(row._id)}>
+                      <DeleteRoundedIcon className="text-danger" />
+                    </Button>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Button onClick={() => updateData(row._id)}>
+                      <BorderColorRoundedIcon className="text-success" />
+                    </Button>
+                  </TableCell>
+                </>
+              )}
+            />
+          </Box>
         </Box>
       )}
 

@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import TableComponent from "../Compnents/TableComponent";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
+import { HashLoader } from "react-spinners";
 
 const Category = () => {
   const token = localStorage.getItem("token");
@@ -81,7 +82,7 @@ const Category = () => {
     const updatedStatus = selectedData.status === "on" ? "off" : "on";
 
     try {
-      setLoading(true);  // Start loading
+      // setLoading(true);  // Start loading
       await axios.patch(
         `https://interviewhub-3ro7.onrender.com/catagory/${id}`,
         { status: updatedStatus },
@@ -133,53 +134,54 @@ const Category = () => {
 
   return (
     <ThemeDash>
-      <Box className="mb-2">
-        <React.Fragment>
-          <Box className="gap-2 d-flex justify-content-between align-items-center">
-            <Box sx={{ width: "85%" }}>
-              <TextField label="Search Category" value={searchTerm} onChange={handleSearch} />
-            </Box>
-            <Box sx={{ width: "15%" }}>
-              <Button variant="contained" onClick={() => { setOpen(true) }} className="w-100 py-3">
-                ADD CATEGORY
-              </Button>
-            </Box>
-          </Box>
-        </React.Fragment>
-      </Box>
-
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
-          <CircularProgress />
+          <HashLoader color="#122dff" />
         </Box>
       ) : (
-        <Box sx={{ width: "100%" }}>
-          <TableComponent
-            TableHeader={TableHeader}
-            TableData={filteredCategory}
-            renderRow={(row, index) => (
-              <>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{row.catagoryName}</TableCell>
-                <TableCell>
-                  <Switch
-                    checked={row.status === "on"}
-                    onClick={() => switchToggle(row._id)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Button color="white" onClick={() => deleteData(row._id)}>
-                    <DeleteRoundedIcon className="text-danger" />
+        <Box>
+          <Box className="mb-2">
+            <React.Fragment>
+              <Box className="gap-2 d-flex justify-content-between align-items-center">
+                <Box sx={{ width: "85%" }}>
+                  <TextField label="Search Category" value={searchTerm} onChange={handleSearch} />
+                </Box>
+                <Box sx={{ width: "15%" }}>
+                  <Button variant="contained" onClick={() => { setOpen(true) }} className="w-100 py-3">
+                    ADD CATEGORY
                   </Button>
-                </TableCell>
-                <TableCell>
-                  <Button color="white" onClick={() => updateData(row._id)}>
-                    <BorderColorRoundedIcon className="text-success" />
-                  </Button>
-                </TableCell>
-              </>
-            )}
-          />
+                </Box>
+              </Box>
+            </React.Fragment>
+          </Box>
+          <Box sx={{ width: "100%" }}>
+            <TableComponent
+              TableHeader={TableHeader}
+              TableData={filteredCategory}
+              renderRow={(row, index) => (
+                <>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{row.catagoryName}</TableCell>
+                  <TableCell>
+                    <Switch
+                      checked={row.status === "on"}
+                      onClick={() => switchToggle(row._id)}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Button color="white" onClick={() => deleteData(row._id)}>
+                      <DeleteRoundedIcon className="text-danger" />
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button color="white" onClick={() => updateData(row._id)}>
+                      <BorderColorRoundedIcon className="text-success" />
+                    </Button>
+                  </TableCell>
+                </>
+              )}
+            />
+          </Box>
         </Box>
       )}
 

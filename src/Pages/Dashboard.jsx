@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { Box, Typography, CircularProgress } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ThemeDash from '../Compnents/ThemeDash';
 import axios from 'axios';
+import { HashLoader } from 'react-spinners';
 
 const Dashboard = () => {
 
@@ -47,13 +48,11 @@ const Dashboard = () => {
             <div>
                 {/* Dashboard Header */}
 
-                {/* Main Content */}
                 <Container className="mt-3">
                     <Row>
-                        {/* Check if loading is true, display spinner */}
                         {loading ? (
                             <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%', height: '60vh' }}>
-                                <CircularProgress />
+                                <HashLoader color="#122dff"/>
                             </Box>
                         ) : (
                             <>
